@@ -16,7 +16,7 @@ class Persona:
 
 
 class Trabajador(Persona):
-    def __init__(self, nombre, edad, departamento, puesto):
+    def __init__(self, nombre, edad, departamento='Data', puesto='Analyst'):
         super().__init__(nombre, edad)
         self.departamento = departamento
         self.puesto = puesto
@@ -35,3 +35,6 @@ persona_1.presentation()
 
 trabajador_1 = Trabajador('Ivan', 27, 'Data', 'Data Engineer')
 trabajador_1.presentation()
+
+trabajador_2 = Trabajador('Ivan', 27)
+trabajador_2.presentation()

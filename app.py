@@ -18,6 +18,10 @@ class Trabajador(Persona):
         self.departamento = departamento
         self.puesto = puesto
 
+    def presentation(self):
+        super().presentation()
+        print(f"Trabajo en el departamento de {self.departamento} como {self.puesto}")
+
         
 ####################################################
 # MAIN
@@ -25,3 +29,6 @@ class Trabajador(Persona):
 nombre = 'Alberto'
 persona_1 = Persona(nombre, 20)
 persona_1.presentation()
+
+trabajador_1 = Trabajador('Ivan', 27, 'Data', 'Data Engineer')
+trabajador_1.presentation()

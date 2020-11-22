@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 ###############################################################################
 # PARAMETERS
 
+N = 6
 
 
 ###############################################################################
@@ -36,4 +37,15 @@ dag = DAG(dag_id='test',
 start = DummyOperator(task_id='start', dag=dag)
 end = DummyOperator(task_id='end', dag=dag)
 
-start >> end
+impares = []
+pares = []
+for i in range(1, N+1):
+    if i % 2 == 0: pares.append(DummyOperator(task_id=f"task_{i}", dag=dag))
+    else: impares.append(DummyOperator(task_id=f"task_{i}", dag=dag))
+
+start >> impares
+for task_par in pares:
+    for task_impar in impares:
+        task_impar >> task_par
+    task_par >> end
+

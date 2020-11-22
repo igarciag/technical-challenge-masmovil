@@ -67,3 +67,13 @@ end = DummyOperator(task_id='end', dag=dag)
 time_task = TimeDiff(task_id='timediff', date=DATE, dag=dag)
 
 start >> time_task >> end
+
+
+
+# Un hook es una interfaz para interactuar con un servicio externo. Hay hooks para 
+# multiples servicios de terceros: gcp, s3, hdfs...
+
+# La diferencia con las conexiones es que las conexiones simplemente son una forma
+# de guardar metodos y datos de autenticacion de servicios externos.
+# Los hooks usan internamente conexiones para poder almacenar y facilitar el acceso
+# a los servicios correspondientes

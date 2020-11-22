@@ -70,10 +70,10 @@ start >> time_task >> end
 
 
 
-# Un hook es una interfaz para interactuar con un servicio externo. Hay hooks para 
-# multiples servicios de terceros: gcp, s3, hdfs...
+# Un hook es una interfaz para interactuar con un servicio externo (ofreciendo metodos,
+# facilidades en la conexion...). Hay hooks para multiples servicios de terceros: gcp, s3, hdfs...
 
 # La diferencia con las conexiones es que las conexiones simplemente son una forma
 # de guardar metodos y datos de autenticacion de servicios externos.
-# Los hooks usan internamente conexiones para poder almacenar y facilitar el acceso
+# Los hooks usan internamente (en sus metodos) conexiones para poder almacenar y facilitar el acceso
 # a los servicios correspondientes

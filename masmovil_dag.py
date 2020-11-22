@@ -2,12 +2,15 @@ import airflow
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from datetime import datetime, timedelta
+from airflow.models.baseoperator import BaseOperator
+from airflow.utils.decorators import apply_defaults
+from dateutil.relativedelta import relativedelta
 
 
 ###############################################################################
 # PARAMETERS
 
-N = 6
+DATE = datetime(2020, 11, 22, 1, 1)
 
 
 ###############################################################################
@@ -28,6 +31,30 @@ dag = DAG(dag_id='test',
 
 
 ###############################################################################
+# CLASSES
+
+class TimeDiff(BaseOperator):
+    @apply_defaults
+    def __init__(
+            self,
+            date,
+            *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.date = date
+
+    def execute(self, context):
+        diff = relativedelta(self.date, datetime.now())
+        message = ""
+        if diff.years != 0: message += f"{diff.years} annos"
+        if diff.months != 0: message += f"{diff.months} meses" 
+        if diff.days != 0: message += f"{diff.days} dias" 
+        if diff.hours != 0: message += f"{diff.hours} horas" 
+        if diff.minutes != 0: message += f"{diff.minutes} minutos" 
+        self.log.info(message)
+        return message
+
+
+###############################################################################
 # FUNCTIONS
 
 
@@ -37,15 +64,6 @@ dag = DAG(dag_id='test',
 start = DummyOperator(task_id='start', dag=dag)
 end = DummyOperator(task_id='end', dag=dag)
 
-impares = []
-pares = []
-for i in range(1, N+1):
-    if i % 2 == 0: pares.append(DummyOperator(task_id=f"task_{i}", dag=dag))
-    else: impares.append(DummyOperator(task_id=f"task_{i}", dag=dag))
+time_task = TimeDiff(task_id='timediff', date=DATE, dag=dag)
 
-start >> impares
-for task_par in pares:
-    for task_impar in impares:
-        task_impar >> task_par
-    task_par >> end
-
+start >> time_task >> end
